@@ -1,0 +1,41 @@
+安裝 OpenJDK 11
+sudo apt update
+sudo apt install openjdk-11-jdk
+java -version
+
+設定 Java 環境變量
+sudo vim /etc/environment
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+source /etc/environment
+echo $JAVA_HOME
+
+下載 Selenium
+mkdir /usr/local/selenium
+wget -c http://selenium-release.storage.googleapis.com/3.9/selenium-server-standalone-3.9.1.jar -O /usr/local/selenium/selenium-server-standalone.jar
+
+Debian 安裝 Chrome 瀏覽器
+版本號獲取
+https://raw.githubusercontent.com/Bugazelle/chromium-all-old-stable-versions/master/chromium.stable.json
+下載指定版本 版本號替換
+sudo wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_102.0.5005.115-1_amd64.deb
+執行安裝包
+sudo apt install ./google-chrome-stable_102.0.5005.115-1_amd64.deb
+
+禁止 chrome 更新
+# 禁止更新
+sudo apt-mark hold google-chrome-stable
+# 復原更新
+sudo apt-mark unhold google-chrome-stable
+
+查看 Chrome 版本
+google-chrome --version
+
+下载 Chromedriver
+wget -c https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip -O /usr/local/selenium/chromedriver_linux64.zip
+unzip /usr/local/selenium/chromedriver_linux64.zip -d /usr/local/selenium/
+
+Composer 安裝 php-webdriver
+composer require php-webdriver/webdriver
+
+nohup 加在指令後面可以背景執行
+java -jar -Dwebdriver.chrome.driver="/usr/local/selenium/chromedriver" /usr/local/selenium/selenium-server-standalone.jar -port 4444
